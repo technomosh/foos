@@ -27,7 +27,8 @@ You can find more info on how to build its components in the [doc folder](doc/HW
 ## Run it!
 
 To run the UI you'll need to install a few dependencies - you can find a list of the python packages in requirements.txt.
-Other dependencies you'll need on your system (raspbian packages) are: `libav-tools sox cec-utils`
+We recommend using Python3 and a virtualenv.
+Before installing the python dependencies, you'll need on your system (raspbian packages): `libav-tools sox cec-utils libjpeg-dev`
 Verify the default configuration in config_base.py and override it if necessary. To override config copy config.py.sample to config.py and edit it:
 ```
 cp config.py.sample config.py
