@@ -83,6 +83,19 @@ Keys in X11 and Raspberry PI:
  * Simulate goal: `a, KP4, d, KP6`
  * Exit: `.`
 
+For enabling rerun after reboot / after failed tasks do the following -
+
+for the reboot...
+sudo vi /etc/rc.local
+add a line to the file:
+/path/to/python3 /path/to/foos.py &
+
+for the restart...
+chmod +x scripts/job_rerun.sh
+crontab -e
+add a line with:
+* * * * * /path/to/job_rerun.sh
+
 ## Troubleshooting
 
 Please check the [Troubleshooting](doc/Troubleshooting.md) section for some common issues.
