@@ -88,12 +88,13 @@ For enabling rerun after reboot / after failed tasks do the following -
 for the reboot...
 sudo vi /etc/rc.local
 add a line to the file:
-/path/to/python3 /path/to/foos.py &
+. /path/to/job_rerun.sh
 
 for the restart...
 chmod +x scripts/job_rerun.sh
 crontab -e
-add a line with:
+add 2 lines with:
+SHELL=/bin/bash
 * * * * * /path/to/job_rerun.sh
 
 ## Troubleshooting
