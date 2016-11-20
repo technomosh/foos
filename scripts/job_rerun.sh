@@ -3,11 +3,14 @@
 # this script searches for the running task and reruns if not running. it will be scheduled by Crontab for every min.
 # change python3's path if needed + the foos.py location if needed
 
-APP_FULL_PATH="/home/pi/Projects/foos/foos.py"
-PYTHON_FULL_PATH="/usr/bin/python3"
+BASE_PATH="/home/pi/Documents/workspaces/foos"
+APP_FULL_PATH="$BASE_PATH/foos.py"
+VENV_PATH="$BASE_PATH/venv/bin"
 
-ps auxw | grep "$PYTHON_FULL_PATH $APP_FULL_PATH" | grep -v grep > /dev/null
+ps auxw | grep "python3 ./foos.py" | grep -v grep > /dev/null
 if [ $? != 0 ]
 then
-       $PYTHON_FULL_PATH $APP_FULL_PATH > /dev/null
+       source $VENV_PATH/activate
+       cd $BASE_PATH
+       python3 ./foos.py > /dev/null &
 fi
