@@ -34,7 +34,7 @@ key_map = {
 
 
 class Plugin(IOBase):
-    def __init__(self):
+    def __init__(self, bus):
         super(Plugin, self).__init__(self.bus)
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(buttonPin17, GPIO.IN)
