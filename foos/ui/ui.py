@@ -306,17 +306,17 @@ class Gui():
             posx = 800
             posy = 450
             scale = (0.2, 0.2, 1.0)
-            self.yCounter.moveTo((posx - 65, posy, posz), scale)
-            self.bCounter.moveTo((posx + 65, posy, posz), scale)
+            self.yCounter.moveTo((posx + 65, posy, posz), scale)
+            self.bCounter.moveTo((posx - 65, posy, posz), scale)
         else:
             scale = (1, 1, 1)
-            self.yCounter.moveTo((-380, 50, posz), scale)
-            self.bCounter.moveTo((380, 50, posz), scale)
+            self.yCounter.moveTo((380, 50, posz), scale)
+            self.bCounter.moveTo((-380, 50, posz), scale)
 
     def __move_winner(self):
         scale = (0.75, 0.75, 0.75)
-        self.yCounter.moveTo((-300, 0, 50), scale)
-        self.bCounter.moveTo((300, 0, 50), scale)
+        self.yCounter.moveTo((300, 0, 50), scale)
+        self.bCounter.moveTo((-300, 0, 50), scale)
 
     def __choose_random_bg(self):
         return random.choice(glob.glob(img("bg/*.jpg")))
