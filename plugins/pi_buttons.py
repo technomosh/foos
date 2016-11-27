@@ -18,6 +18,20 @@ MIN_DURATION = 0.05
 #sleep needs to be <= min_duration
 SLEEP_TIME = 0.05
 
+key_map = {
+    'KEY_KP1': 'yellow_minus',  # KP_1
+    'KEY_KP7': 'yellow_plus',  # KP_7
+    'KEY_KP3': 'black_minus',  # KP_3
+    'KEY_KP9': 'black_plus',  # KP_9
+    'KEY_KP5': 'ok',  # KP_5
+
+    'KEY_Q': 'yellow_plus',  # Q
+    'KEY_E': 'black_plus',  # E
+    'KEY_S': 'ok',  # S
+    'KEY_Z': 'yellow_minus',  # Z
+    'KEY_C': 'black_minus',  # C
+}
+
 
 class Plugin(IOBase):
     def __init__(self):
@@ -36,6 +50,11 @@ class Plugin(IOBase):
         last_state_duration = state_change_time - self.last_state_change_time
         if new_state == NONE:
             logger.info(event_names[self.state] + ', duration: ' + str(last_state_duration))
+
+            #state = "down" if keystate == evdev.events.KeyEvent.key_down else "up"
+            event_data = {'source': 'keyboard', 'btn': "black_plus", 'state': "up"}
+            self.bus.notify('button_event', event_data)
+
         self.state = new_state
         self.last_state_change_time = state_change_time
 
