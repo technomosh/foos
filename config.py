@@ -23,7 +23,10 @@ from config_base import *
 #plugins.add('io_serial')
 
 # -- Enable auto-TV standby
-#plugins.add('standby')
+plugins.add('standby')
+
+# -- Enable pi buttons (GPIO)
+plugins.add('pi_buttons')
 
 
 """ Configure team names and colors """
