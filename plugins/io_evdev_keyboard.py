@@ -2,7 +2,11 @@ from .io_base import IOBase
 import evdev
 from select import select
 import logging
+import RPi.GPIO as GPIO
+import time
 logger = logging.getLogger(__name__)
+
+        
 
 class Plugin(IOBase):
     key_map = {
@@ -29,6 +33,13 @@ class Plugin(IOBase):
 
     def __init__(self, bus):
         self.devices = self.list_devices()
+        buttonPin17 = 17
+        buttonPin4 = 4
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(buttonPin17,GPIO.IN)
+        GPIO.setup(buttonPin4, GPIO.IN)
+        GPIO.add_event_detect(buttonPin4, GPIO.RISING, callback=self.button_press_callback, bouncetime=200)
+        GPIO.add_event_detect(buttonPin17, GPIO.RISING, callback=self.button_press_callback, bouncetime=200)
 
         if len(self.devices) == 0:
             logger.warn("Can't find any keyboards to read from - maybe you need permissions")
@@ -37,6 +48,39 @@ class Plugin(IOBase):
 
         super().__init__(bus)
         
+    def button_press_callback(self, channel):
+        print ("got callback from channel: " + str(channel)) 
+        state17 = GPIO.input(17)
+        state4 = GPIO.input(4)
+        print ("State17: " + str(state17) + " State 4: " + str(state4))
+        if (channel == 4 and state17) or (channel == 17 and state4):
+            print ("Both buttons are pushed")
+        elif channel == 17:
+#             if self.is_long_click(17):
+#                 print("Black undo goal")
+#                 self.simulate_click('KEY_Z')                
+#             else:
+            print("Black goal")
+            self.simulate_click('KEY_Q')                
+        elif channel == 4:
+#             if self.is_long_click(4):
+#                 print("Yellow undo goal")
+#                 self.simulate_click('KEY_C')
+#             else:
+            print("Yellow goal")
+            self.simulate_click('KEY_E')
+
+    def is_long_click(self, channel):
+        if GPIO.input(channel):
+            time.sleep(0.5)
+        return GPIO.input(channel)
+        
+    def simulate_click(self, key):
+        self.handle_key(key, evdev.events.KeyEvent.key_down)
+        time.sleep(0.05)
+        self.handle_key(key, evdev.events.KeyEvent.key_up)
+    
+            
     def list_devices(self):
         devices = [evdev.InputDevice(fn) for fn in evdev.list_devices()]
         def hasAKey(device):
@@ -58,6 +102,7 @@ class Plugin(IOBase):
             btn = self.key_map[code]
 
             event_data = {'source': 'keyboard', 'btn': btn, 'state': state}
+            print(event_data)
             self.bus.notify('button_event', event_data)
 
         if code in self.goal_map and state == "down":
@@ -80,8 +125,14 @@ class Plugin(IOBase):
                         self.handle_key(ce.keycode, ce.keystate)
 
         return
+
+    def isStateChanged(self, input):
+        print(input)
+        print(self.prev_input)
+        return input != self.prev_input
     
     def writer_thread(self):
         while True:
             self.write_queue.get()
             pass
+
