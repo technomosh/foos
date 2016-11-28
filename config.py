@@ -26,10 +26,10 @@ from foos.config_base import *
 plugins.add('standby')
 
 # -- Enable pi buttons (GPIO)
-#plugins.add('pi_buttons')
+plugins.add('pi_buttons')
 
 # -- Enable the old buttons version
-plugins.add('io_evdev_keyboard')
+# plugins.add('io_evdev_keyboard')
 
 """ Configure team names and colors """
 #team_names = {"yellow": "blue", "black": "red"}

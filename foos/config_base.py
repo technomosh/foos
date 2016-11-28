@@ -1,5 +1,5 @@
 # basic set of plugins
-plugins = set(['score', 'game', 'sound', 'io_debug', 'menu', 'control', 'league', 'leds', 'io_evdev_keyboard'])
+plugins = set(['score', 'game', 'sound', 'io_debug', 'menu', 'control', 'league', 'leds', 'pi_buttons'])
 
 onscreen_leds_enabled = False
 standby_timeout_secs = 600
