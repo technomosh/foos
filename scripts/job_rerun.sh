@@ -7,9 +7,9 @@ BASE_PATH="/home/pi/Documents/workspaces/foos"
 APP_FULL_PATH="$BASE_PATH/foos.py"
 VENV_PATH="$BASE_PATH/venv/bin"
 
-ps auxw | grep "python3 ./foos.py" | grep -v grep > /dev/null
+ps auxw | grep "python3 $BASE_PATH/foos.py" | grep -v grep > /dev/null
 if [ $? != 0 ]
 then
-       echo . $VENV_PATH/activate && python3 && ./foos.py
-       . $VENV_PATH/activate && python3 && ./foos.py > /dev/null &
+       echo . $VENV_PATH/activate && python3 && $BASE_PATH/foos.py
+       . $VENV_PATH/activate && python3 && $BASE_PATH/foos.py > /dev/null &
 fi
