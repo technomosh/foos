@@ -14,7 +14,7 @@ A_ONLY = (0, 1)
 B_ONLY = (1, 0)
 BOTH = (1, 1)
 event_names = {NONE: 'NONE', A_ONLY: 'A', B_ONLY: 'B', BOTH: 'BOTH'}
-team_names = {A_ONLY: 'black', B_ONLY: 'yellow'}
+team_names = {A_ONLY: 'yellow', B_ONLY: 'black'}
 
 MIN_DURATION = 0.05
 #sleep needs to be <= min_duration
