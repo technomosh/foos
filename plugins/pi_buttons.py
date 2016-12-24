@@ -17,7 +17,7 @@ BOTH = (1, 1)
 event_names = {NONE: 'NONE', A_ONLY: 'A', B_ONLY: 'B', BOTH: 'BOTH'}
 MIN_DURATION = 0.05
 # sleep needs to be <= min_duration
-SLEEP_TIME = 0.05
+SLEEP_TIME = 0.02
 LONG_DURATION = 0.5
 
 
