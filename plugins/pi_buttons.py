@@ -2,6 +2,7 @@ from .io_base import IOBase
 import RPi.GPIO as GPIO
 import time
 import logging
+
 logger = logging.getLogger(__name__)
 
 # module constants
@@ -13,11 +14,11 @@ NONE = (0, 0)
 A_ONLY = (0, 1)
 B_ONLY = (1, 0)
 BOTH = (1, 1)
-event_names = {NONE : 'NONE', A_ONLY : 'A', B_ONLY : 'B', BOTH : 'BOTH'}
+event_names = {NONE: 'NONE', A_ONLY: 'A', B_ONLY: 'B', BOTH: 'BOTH'}
 MIN_DURATION = 0.05
-#sleep needs to be <= min_duration
+# sleep needs to be <= min_duration
 SLEEP_TIME = 0.05
-
+LONG_DURATION = 0.5
 
 
 class Plugin(IOBase):
@@ -30,7 +31,7 @@ class Plugin(IOBase):
         self.temp_state = NONE
         self.last_temp_change_time = time.time()
         self.last_state_change_time = time.time()
-        
+
         super(Plugin, self).__init__(bus)
 
     def _change_state(self, new_state, new_state_duration):
@@ -38,6 +39,20 @@ class Plugin(IOBase):
         last_state_duration = state_change_time - self.last_state_change_time
         if new_state == NONE:
             logger.info(event_names[self.state] + ', duration: ' + str(last_state_duration))
+
+            if (last_state_duration < LONG_DURATION):
+                if (self.state == A_ONLY):
+                    self.bus.notify('increment_score', {'team': 'black'})
+                elif (self.state == B_ONLY):
+                    self.bus.notify('increment_score', {'team': 'yellow'})
+            else:
+                if (self.state == A_ONLY):
+                    self.bus.notify('decrement_score', {'team': 'black'})
+                elif (self.state == B_ONLY):
+                    self.bus.notify('decrement_score', {'team': 'yellow'})
+                else:
+                    self.bus.notify('reset_score', {})
+
         self.state = new_state
         self.last_state_change_time = state_change_time
 
@@ -63,4 +78,3 @@ class Plugin(IOBase):
         while True:
             self.write_queue.get()
             pass
-
