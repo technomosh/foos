@@ -41,14 +41,14 @@ class Plugin(IOBase):
             logger.info(event_names[self.state] + ', duration: ' + str(last_state_duration))
 
             if (last_state_duration < LONG_DURATION):
-                if (self.state == A_ONLY):
+                if (self.state == B_ONLY):
                     self.bus.notify('increment_score', {'team': 'black'})
-                elif (self.state == B_ONLY):
+                elif (self.state == A_ONLY):
                     self.bus.notify('increment_score', {'team': 'yellow'})
             else:
-                if (self.state == A_ONLY):
+                if (self.state == B_ONLY):
                     self.bus.notify('decrement_score', {'team': 'black'})
-                elif (self.state == B_ONLY):
+                elif (self.state == A_ONLY):
                     self.bus.notify('decrement_score', {'team': 'yellow'})
                 else:
                     self.bus.notify('reset_score', {})
