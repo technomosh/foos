@@ -15,10 +15,10 @@ A_ONLY = (0, 1)
 B_ONLY = (1, 0)
 BOTH = (1, 1)
 event_names = {NONE: 'NONE', A_ONLY: 'A', B_ONLY: 'B', BOTH: 'BOTH'}
-MIN_DURATION = 0.05
+MIN_DURATION = 0.02
 # sleep needs to be <= min_duration
-SLEEP_TIME = 0.02
-LONG_DURATION = 0.5
+SLEEP_TIME = 0.01
+LONG_DURATION = 0.4
 
 
 class Plugin(IOBase):
@@ -39,20 +39,12 @@ class Plugin(IOBase):
         last_state_duration = state_change_time - self.last_state_change_time
         if new_state == NONE:
             logger.info(event_names[self.state] + ', duration: ' + str(last_state_duration))
-
-            if (last_state_duration < LONG_DURATION):
-                if (self.state == B_ONLY):
-                    self.bus.notify('increment_score', {'team': 'black'})
-                elif (self.state == A_ONLY):
-                    self.bus.notify('increment_score', {'team': 'yellow'})
+            if self.state == BOTH:
+                self.bus.notify('reset_score', {})
             else:
-                if (self.state == B_ONLY):
-                    self.bus.notify('decrement_score', {'team': 'black'})
-                elif (self.state == A_ONLY):
-                    self.bus.notify('decrement_score', {'team': 'yellow'})
-                else:
-                    self.bus.notify('reset_score', {})
-
+                team = 'black' if self.state == B_ONLY else 'yellow'
+                operation = 'increment_score' if (last_state_duration < LONG_DURATION) else 'decrement_score'
+                self.bus.notify(operation, {'team': team})
         self.state = new_state
         self.last_state_change_time = state_change_time
 
