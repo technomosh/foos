@@ -52,6 +52,16 @@ md_ev_absence_timeout = 30
 # send movement_detected every X seconds
 md_ev_interval = 2
 
+
+#button configuration
+btn_pin_a = 17
+btn_pin_b = 4
+btn_min_duration = 0.02
+# sleep needs to be <= min_duration
+btn_sleep_time = 0.01
+btn_long_duration = 0.4
+
+
 log = {
     "version": 1,
     "disable_existing_loggers": False,

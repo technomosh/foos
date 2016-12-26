@@ -3,29 +3,25 @@ import RPi.GPIO as GPIO
 import time
 import logging
 
+from foos.config import btn_pin_a
+from foos.config import btn_pin_b
+from foos.config import btn_min_duration
+from foos.config import btn_sleep_time
+from foos.config import btn_long_duration
+
 logger = logging.getLogger(__name__)
 
-# module constants
-# adjust for where your switch is connected
-# TODO: populate this from the config
-buttonPin17 = 17
-buttonPin4 = 4
+# gpio state constants
 NONE = (0, 0)
 A_ONLY = (0, 1)
 B_ONLY = (1, 0)
 BOTH = (1, 1)
-event_names = {NONE: 'NONE', A_ONLY: 'A', B_ONLY: 'B', BOTH: 'BOTH'}
-MIN_DURATION = 0.02
-# sleep needs to be <= min_duration
-SLEEP_TIME = 0.01
-LONG_DURATION = 0.4
-
 
 class Plugin(IOBase):
     def __init__(self, bus):
         GPIO.setmode(GPIO.BCM)
-        GPIO.setup(buttonPin17, GPIO.IN)
-        GPIO.setup(buttonPin4, GPIO.IN)
+        GPIO.setup(btn_pin_a, GPIO.IN)
+        GPIO.setup(btn_pin_b, GPIO.IN)
 
         self.state = NONE
         self.temp_state = NONE
@@ -38,19 +34,19 @@ class Plugin(IOBase):
         state_change_time = time.time() - new_state_duration
         last_state_duration = state_change_time - self.last_state_change_time
         if new_state == NONE:
-            logger.info(event_names[self.state] + ', duration: ' + str(last_state_duration))
+            logger.info(self.state + ', duration: ' + str(last_state_duration))
             if self.state == BOTH:
                 self.bus.notify('reset_score', {})
             else:
                 team = 'black' if self.state == B_ONLY else 'yellow'
-                operation = 'increment_score' if (last_state_duration < LONG_DURATION) else 'decrement_score'
+                operation = 'increment_score' if (last_state_duration < btn_long_duration) else 'decrement_score'
                 self.bus.notify(operation, {'team': team})
         self.state = new_state
         self.last_state_change_time = state_change_time
 
     def reader_thread(self):
         while True:
-            new_state = (GPIO.input(buttonPin4), GPIO.input(buttonPin17))
+            new_state = (GPIO.input(btn_pin_b), GPIO.input(btn_pin_a))
             if self.state == new_state:
                 self.temp_state = self.state
             else:
@@ -61,10 +57,10 @@ class Plugin(IOBase):
                 elif self.temp_state == new_state:
                     # we have been in the temp state already, let's check if we can call it a state change
                     temp_duration = time.time() - self.last_temp_change_time
-                    if temp_duration >= MIN_DURATION:
+                    if temp_duration >= btn_min_duration:
                         # State change!!!
                         self._change_state(new_state, temp_duration)
-            time.sleep(SLEEP_TIME)
+            time.sleep(btn_sleep_time)
 
     def writer_thread(self):
         while True:
