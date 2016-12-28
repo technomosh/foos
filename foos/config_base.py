@@ -1,5 +1,5 @@
 # basic set of plugins
-plugins = set(['score', 'game', 'sound', 'io_debug', 'menu', 'control', 'league', 'leds', 'io_evdev_keyboard'])
+plugins = set(['score', 'game', 'sound', 'io_debug', 'menu', 'control', 'league', 'leds', 'io_evdev_keyboard', 'pi_buttons'])
 
 onscreen_leds_enabled = False
 standby_timeout_secs = 600
@@ -51,6 +51,16 @@ md_min_frames = 9
 md_ev_absence_timeout = 30
 # send movement_detected every X seconds
 md_ev_interval = 2
+
+
+#button configuration
+btn_pin_a = 17
+btn_pin_b = 4
+btn_min_duration = 0.02
+# sleep needs to be <= min_duration
+btn_sleep_time = 0.01
+btn_long_duration = 0.4
+
 
 log = {
     "version": 1,
