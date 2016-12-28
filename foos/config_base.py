@@ -1,5 +1,5 @@
 # basic set of plugins
-plugins = set(['score', 'game', 'sound', 'io_debug', 'menu', 'control', 'league', 'leds', 'io_evdev_keyboard', 'pi_buttons'])
+plugins = set(['score', 'game', 'sound', 'io_debug', 'menu', 'control', 'league', 'leds', 'io_evdev_keyboard', 'pi_buttons', 'pi_ir_barrier'])
 
 onscreen_leds_enabled = False
 standby_timeout_secs = 600
@@ -60,6 +60,10 @@ btn_min_duration = 0.02
 # sleep needs to be <= min_duration
 btn_sleep_time = 0.01
 btn_long_duration = 0.4
+
+#ir barrier configuration
+ir_pin_a = 23
+ir_pin_b = 24
 
 
 log = {
