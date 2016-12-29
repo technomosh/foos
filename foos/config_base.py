@@ -64,6 +64,7 @@ btn_long_duration = 0.4
 #ir barrier configuration
 ir_pin_a = 24
 ir_pin_b = 23
+ir_dedup_seconds = 2
 
 
 log = {
