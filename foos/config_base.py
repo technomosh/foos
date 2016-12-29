@@ -62,8 +62,8 @@ btn_sleep_time = 0.01
 btn_long_duration = 0.4
 
 #ir barrier configuration
-ir_pin_a = 23
-ir_pin_b = 24
+ir_pin_a = 24
+ir_pin_b = 23
 
 
 log = {

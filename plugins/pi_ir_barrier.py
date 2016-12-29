@@ -26,6 +26,7 @@ class Plugin(IOBase):
 
     def reader_thread(self):
         while True:
+            time.sleep(0.05)
             pass
 
     def writer_thread(self):

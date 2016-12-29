@@ -34,7 +34,7 @@ class Plugin(IOBase):
         state_change_time = time.time() - new_state_duration
         last_state_duration = state_change_time - self.last_state_change_time
         if new_state == NONE:
-            logger.info(self.state + ', duration: ' + str(last_state_duration))
+            logger.info(str(self.state) + ', duration: ' + str(last_state_duration))
             if self.state == BOTH:
                 self.bus.notify('reset_score', {})
             else:
