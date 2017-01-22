@@ -1,5 +1,5 @@
 # basic set of plugins
-plugins = set(['score', 'game', 'sound', 'io_debug', 'menu', 'control', 'league', 'leds', 'io_evdev_keyboard', 'pi_buttons', 'pi_ir_barrier'])
+plugins = set(['score', 'game', 'sound', 'io_debug', 'menu', 'control', 'league', 'leds', 'io_evdev_keyboard', 'pi_buttons', 'pi_ir_barrier','handle_lights'])
 
 onscreen_leds_enabled = False
 standby_timeout_secs = 600
@@ -16,7 +16,7 @@ team_names = {"yellow": "yellow", "black": "black"}
 team_colors = {"yellow": (1, 0.7, 0), "black": (0, 0, 0)}
 
 # game modes: tuples of (winning score, timeout in minutes)
-game_modes = [(None, None), (3, None), (5, None), (3, 120)]
+game_modes = [(8, None), (3, None), (5, None), (3, 120)]
 
 replay_path = '/dev/shm/replay'
 replay_fps = 25
