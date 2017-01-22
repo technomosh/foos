@@ -3,6 +3,7 @@ import RPi.GPIO as GPIO
 import time
 import logging
 from time import sleep
+from threading import Thread
 
 from foos.config import black_team_light, yellow_team_light
 
@@ -21,7 +22,7 @@ class Plugin(IOBase):
 
     def process_event(self, ev):
         if ev.name == "increment_score":
-           self.blink_light(ev.data['team'])
+            Thread(target=self.blink_light(ev.data['team'])).start()
 
     def blink_light(self, team):
         blink_team = yellow_team_light if team=='yellow' else black_team_light
