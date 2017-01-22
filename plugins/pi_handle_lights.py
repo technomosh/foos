@@ -2,6 +2,7 @@ from .io_base import IOBase
 import RPi.GPIO as GPIO
 import time
 import logging
+from time import sleep
 
 from foos.config import black_team_light, yellow_team_light
 
@@ -19,5 +20,13 @@ class Plugin(IOBase):
         super(Plugin, self).__init__(bus)
 
     def process_event(self, ev):
-        logger.info("I'm in process events !!! " + str(ev))
+        if ev.name == "increment_score":
+           self.blink_light(ev.data['team'])
 
+    def blink_light(self, team):
+        blink_team = yellow_team_light if team=='yellow' else black_team_light
+        for i in range(4): 
+           GPIO.output(blink_team, GPIO.HIGH)
+           sleep(0.2)
+           GPIO.output(blink_team, GPIO.LOW)
+           sleep(0.2)
