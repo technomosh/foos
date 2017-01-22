@@ -66,6 +66,9 @@ ir_pin_a = 24
 ir_pin_b = 23
 ir_dedup_seconds = 2
 
+#lights gpio
+yellow_team_light = 26
+black_team_light = 5
 
 log = {
     "version": 1,
