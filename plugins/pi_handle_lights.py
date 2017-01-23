@@ -22,7 +22,7 @@ class Plugin(IOBase):
 
     def process_event(self, ev):
         if ev.name == "increment_score":
-            Thread(target=self.blink_light(ev.data['team'])).start()
+            Thread(target=self.blink_light, args=ev.data['team']).start()
 
     def blink_light(self, team):
         blink_team = yellow_team_light if team=='yellow' else black_team_light
